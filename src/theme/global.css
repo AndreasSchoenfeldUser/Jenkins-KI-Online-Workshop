@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Design-System "Soft Precision" — zentrale CSS-Variablen (spiegeln tailwind.config.js). */
+  --navy: #0e2a4a;
+  --navy-2: #16395f;
+  --orange: #e8520a;
+  --amber: #f5a623;
+  --grey: #55606b;
+  --light: #eef1f4;
+  --ink: #1a1a1a;
+  --white: #ffffff;
+
+  --bg: var(--white);
+  --bg-soft: var(--light);
+  --text: var(--ink);
+  --text-muted: var(--grey);
+  --surface: var(--white);
+  --border: rgba(14, 42, 74, 0.1);
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b2038;
+  --bg-soft: #0e2a4a;
+  --text: #eef1f4;
+  --text-muted: #aebac7;
+  --surface: #16395f;
+  --border: rgba(255, 255, 255, 0.12);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: theme('fontFamily.sans');
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: theme('fontFamily.serif');
+    color: var(--text);
+  }
+
+  /* Sichtbare Fokus-Ringe fuer Tastaturbedienung (A11y). */
+  :focus-visible {
+    outline: 3px solid var(--orange);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgba(232, 82, 10, 0.2);
+  }
+}
+
+@layer components {
+  .surface {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+}
+
+/* Text auf dunklen Folien (navy) immer hell darstellen. */
+.slide-dark p,
+.slide-dark li,
+.slide-dark h2,
+.slide-dark h3,
+.slide-dark h4 {
+  color: #eef1f4;
+}
+.slide-dark strong {
+  color: #ffffff;
+}
+
+/* Druck-/PDF-freundliches Stylesheet fuer den Lehrbuch-Modus. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .print-full {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}
