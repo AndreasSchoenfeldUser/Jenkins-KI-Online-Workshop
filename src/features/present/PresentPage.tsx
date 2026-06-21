@@ -8,6 +8,7 @@ import {
   StickyNote,
   LayoutGrid,
   X,
+  LogOut,
 } from 'lucide-react';
 import { SLIDES } from '../../content/slides';
 import { SlideView } from './SlideView';
@@ -32,6 +33,16 @@ export function PresentPage() {
     },
     [navigate],
   );
+
+  // Praesentation verlassen — ggf. zuerst Vollbild beenden, dann zur Startseite.
+  const exitPresentation = useCallback(async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+    } catch {
+      /* ignore */
+    }
+    navigate('/');
+  }, [navigate]);
 
   const toggleFullscreen = useCallback(async () => {
     try {
@@ -77,13 +88,20 @@ export function PresentPage() {
           setOverview((o) => !o);
           break;
         case 'Escape':
-          if (overview) setOverview(false);
+          // Erst Übersicht schließen, dann Vollbild, sonst Präsentation verlassen.
+          if (overview) {
+            setOverview(false);
+          } else if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          } else {
+            exitPresentation();
+          }
           break;
       }
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [index, overview, go, toggleFullscreen]);
+  }, [index, overview, go, toggleFullscreen, exitPresentation]);
 
   const slide = SLIDES[index];
 
@@ -131,6 +149,15 @@ export function PresentPage() {
             <ToolbarButton active={fullscreen} onClick={toggleFullscreen} label="Vollbild (F)">
               {fullscreen ? <Minimize size={18} aria-hidden /> : <Maximize size={18} aria-hidden />}
             </ToolbarButton>
+            <span className="mx-1 h-6 w-px bg-[color:var(--border)]" aria-hidden />
+            <button
+              type="button"
+              onClick={exitPresentation}
+              className="inline-flex items-center gap-1.5 rounded px-3 py-2 text-sm font-medium text-orange hover:bg-orange/10"
+              title="Präsentation beenden (Esc)"
+            >
+              <LogOut size={16} aria-hidden /> Beenden
+            </button>
           </div>
         </div>
 
@@ -153,7 +180,7 @@ export function PresentPage() {
         )}
 
         <p className="mt-3 text-center text-xs text-[color:var(--text-muted)]">
-          Tastatur: ←/→ blättern · F Vollbild · S Notizen · O Übersicht · Esc schließt
+          Tastatur: ←/→ blättern · F Vollbild · S Notizen · O Übersicht · Esc Übersicht/Vollbild schließen bzw. Präsentation beenden
         </p>
       </div>
 

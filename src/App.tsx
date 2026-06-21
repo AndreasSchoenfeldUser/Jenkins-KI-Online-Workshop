@@ -61,30 +61,17 @@ export default function App() {
       <HashRouter>
         <Suspense fallback={<Loading />}>
           <Routes>
-            {/* Praesentationsmodus ohne Standard-Layout (Vollbild-Buehne). */}
-            <Route
-              path="/present"
-              element={
-                <div className="px-4 py-6">
-                  <PresentPage />
-                </div>
-              }
-            />
-            <Route
-              path="/present/:slideIndex"
-              element={
-                <div className="px-4 py-6">
-                  <PresentPage />
-                </div>
-              }
-            />
-
+            {/* Alle Seiten im Standard-Layout (mit Hauptmenue/Topbar) — auch die
+                Praesentation, damit man sie jederzeit verlassen kann. Echtes Vollbild
+                liefert die Fullscreen-API innerhalb der Praesentation. */}
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/station/:id" element={<StationPage />} />
               <Route path="/exercise/:id" element={<ExercisePage />} />
               <Route path="/handbook" element={<HandbookPage />} />
               <Route path="/handbook/:sectionId" element={<HandbookPage />} />
+              <Route path="/present" element={<PresentPage />} />
+              <Route path="/present/:slideIndex" element={<PresentPage />} />
               <Route path="/glossary" element={<GlossaryPage />} />
               <Route path="/progress" element={<ProgressPage />} />
               <Route path="/admin/users" element={<UserAdminPage />} />
