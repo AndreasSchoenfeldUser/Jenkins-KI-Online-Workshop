@@ -35,6 +35,17 @@ export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnai
         </div>
       )}
 
+      {/* Titelfolie: Topologie-Grafik als Hero, hoehenbegrenzt (kein Ueberlauf der Buehne) */}
+      {slide.kind === 'title' && !thumbnail && (
+        <div className="mt-6 flex min-h-0 flex-1 items-center justify-center">
+          <img
+            src="./assets/banner.svg"
+            alt="Topologie: Controller (host1) orchestriert die Agenten host2 (maven) und host4 (pytest); beide wirken auf das Deployment-Ziel host3."
+            className="max-h-full w-auto max-w-[78%]"
+          />
+        </div>
+      )}
+
       {/* Dezenter Akzent statt Accent-Stripe-Motiv */}
       {(slide.kind === 'title' || slide.kind === 'divider') && !thumbnail && (
         <span className="mt-6 inline-block h-1 w-16 rounded bg-orange" aria-hidden />

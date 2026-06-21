@@ -13,10 +13,7 @@ export const SLIDES: Slide[] = [
     background: 'navy',
     kicker: 'DevOps-Workshop',
     title: 'Jenkins-Infrastruktur mit Claude Code',
-    body: [
-      p('Eine verteilte CI/CD-Umgebung spezifizieren statt abtippen.'),
-      img('./assets/banner.svg', 'Workshop-Banner'),
-    ],
+    body: [p('Eine verteilte CI/CD-Umgebung spezifizieren statt abtippen.')],
     speakerNotes:
       'Begrüßung. Heute bauen wir gemeinsam eine verteilte Jenkins-Umgebung über vier Hosts — ' +
       'nicht durch Abtippen, sondern durch Spezifizieren. Claude Code generiert, wir prüfen.',

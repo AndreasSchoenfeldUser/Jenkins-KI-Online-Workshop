@@ -1,34 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Workshop-Banner: Jenkins-Infrastruktur mit Claude Code">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0E2A4A" />
-      <stop offset="100%" stop-color="#16395F" />
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="400" fill="url(#bg)" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 340" width="800" height="340" role="img" aria-label="Topologie: Controller orchestriert zwei Agenten und ein Deployment-Ziel">
+  <!-- Reine Topologie-Illustration (ohne Titeltext — der steht als Folientitel). -->
+  <!-- Orchestrierung (gestrichelt, orange) vom Controller zu den Agenten -->
+  <path d="M372 92 L240 156" stroke="#E8520A" stroke-width="2.5" stroke-dasharray="6 5" fill="none" />
+  <path d="M428 92 L560 156" stroke="#E8520A" stroke-width="2.5" stroke-dasharray="6 5" fill="none" />
+  <!-- Daten-/Testfluss (durchgezogen) von den Agenten zum Zielsystem -->
+  <path d="M232 196 L372 256" stroke="#EEF1F4" stroke-width="2.5" fill="none" />
+  <path d="M568 196 L428 256" stroke="#EEF1F4" stroke-width="2.5" fill="none" />
 
-  <!-- Knoten-Topologie als dezentes Motiv rechts -->
-  <g opacity="0.92">
-    <circle cx="940" cy="120" r="34" fill="#16395F" stroke="#E8520A" stroke-width="2.5" />
-    <text x="940" y="126" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#EEF1F4">host1</text>
+  <!-- host1 — Controller (oben) -->
+  <circle cx="400" cy="70" r="36" fill="#16395F" stroke="#E8520A" stroke-width="3" />
+  <text x="400" y="66" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="600" fill="#EEF1F4">host1</text>
+  <text x="400" y="84" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#9FB3C8">Controller</text>
 
-    <circle cx="850" cy="270" r="30" fill="#16395F" stroke="#F5A623" stroke-width="2.5" />
-    <text x="850" y="276" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#EEF1F4">host2</text>
+  <!-- host2 — Agent maven (links) -->
+  <circle cx="210" cy="176" r="32" fill="#16395F" stroke="#F5A623" stroke-width="3" />
+  <text x="210" y="172" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#EEF1F4">host2</text>
+  <text x="210" y="189" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#9FB3C8">maven</text>
 
-    <circle cx="1030" cy="270" r="30" fill="#16395F" stroke="#F5A623" stroke-width="2.5" />
-    <text x="1030" y="276" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" fill="#EEF1F4">host4</text>
+  <!-- host4 — Agent pytest (rechts) -->
+  <circle cx="590" cy="176" r="32" fill="#16395F" stroke="#F5A623" stroke-width="3" />
+  <text x="590" y="172" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#EEF1F4">host4</text>
+  <text x="590" y="189" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#9FB3C8">pytest</text>
 
-    <circle cx="940" cy="335" r="26" fill="#16395F" stroke="#EEF1F4" stroke-width="2" />
-    <text x="940" y="340" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" fill="#EEF1F4">host3</text>
-
-    <path d="M912 138 L872 248" stroke="#E8520A" stroke-width="2" stroke-dasharray="6 5" fill="none" />
-    <path d="M968 138 L1008 248" stroke="#E8520A" stroke-width="2" stroke-dasharray="6 5" fill="none" />
-    <path d="M858 298 L928 322" stroke="#EEF1F4" stroke-width="2" fill="none" />
-    <path d="M1022 298 L952 322" stroke="#EEF1F4" stroke-width="2" fill="none" />
-  </g>
-
-  <text x="80" y="150" font-family="'Source Serif 4', Georgia, serif" font-size="58" font-weight="700" fill="#FFFFFF">Jenkins-Infrastruktur</text>
-  <text x="80" y="220" font-family="'Source Serif 4', Georgia, serif" font-size="58" font-weight="700" fill="#F5A623">mit Claude Code</text>
-  <text x="82" y="280" font-family="Inter, Arial, sans-serif" font-size="22" fill="#EEF1F4">Ein ganztägiger DevOps-Workshop — Spezifizieren statt Abtippen</text>
-  <rect x="82" y="305" width="64" height="4" rx="2" fill="#E8520A" />
+  <!-- host3 — Deployment-Ziel (unten) -->
+  <circle cx="400" cy="282" r="30" fill="#16395F" stroke="#EEF1F4" stroke-width="2.5" />
+  <text x="400" y="278" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#EEF1F4">host3</text>
+  <text x="400" y="295" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="11" fill="#9FB3C8">Ziel</text>
 </svg>
