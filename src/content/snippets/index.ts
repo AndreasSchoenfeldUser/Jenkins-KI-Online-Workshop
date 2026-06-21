@@ -287,7 +287,8 @@ case "\${ROLE}" in
     echo "Agent-Rolle: maven (Build/Unit-Test/Deploy) bereit."
     ;;
   pytest)
-    sudo apt-get install -y python3.12 python3.12-venv python3-pip
+    # curl wird von der Stage Smoke-Wait fuer den Health-Check benoetigt.
+    sudo apt-get install -y python3.12 python3.12-venv python3-pip curl
     python3 -m venv "\${AGENT_HOME}/.venv"
     "\${AGENT_HOME}/.venv/bin/pip" install --quiet requests pytest
     echo "Agent-Rolle: pytest (Smoke-Wait/ITest) bereit."

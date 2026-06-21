@@ -20,7 +20,7 @@ import {
   TEST_APP_PY,
   EXAMPLE_PROMPTS,
 } from './snippets';
-import { DOMAIN, JENKINS_URL, WORKSHOP_ACCEPTANCE } from './domain';
+import { DOMAIN, JENKINS_URL, WORKSHOP_ACCEPTANCE, WORKSHOP_REQUIREMENTS } from './domain';
 
 // Das vollstaendige Whitepaper als acht Kapitel. Jede Section hat eine stabile id
 // (Deep-Linking, Scrollspy). Stationen referenzieren diese ids.
@@ -261,6 +261,27 @@ export const HANDBOOK: HandbookSection[] = [
     id: '7-ablauf',
     heading: '7. Übungsablauf & Bewertung',
     body: [
+      {
+        kind: 'heading',
+        level: 3,
+        text: 'Checkliste: Was zur Durchführung benötigt wird',
+        id: '7.0-checkliste',
+      },
+      p(
+        'Bevor der Workshop startet, müssen Infrastruktur, Zugänge und Beispielartefakte ' +
+          'bereitstehen. Die folgende Checkliste fasst alles zusammen, gruppiert nach ' +
+          'Verantwortungsbereich.',
+      ),
+      ...WORKSHOP_REQUIREMENTS.flatMap((group) => [
+        { kind: 'heading' as const, level: 4 as const, text: group.title },
+        ul(...group.items),
+      ]),
+      callout(
+        'info',
+        'Die Hosts müssen zu Beginn nur als leere Ubuntu-VMs bereitstehen — OpenJDK, Jenkins, ' +
+          'Maven, Python, nginx und certbot installieren die Teilnehmenden im Workshop selbst ' +
+          'über die generierten Provisionierungsskripte.',
+      ),
       { kind: 'heading', level: 3, text: 'Zeitplan (Richtwert)', id: '7.1-zeitplan' },
       ul(
         '09:00 — Einführung, Mindset, Ausgangslage.',

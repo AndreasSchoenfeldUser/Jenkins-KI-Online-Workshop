@@ -179,6 +179,53 @@ export const PLUGINS: { id: string; purpose: string }[] = [
 ];
 
 // ----------------------------------------------------------------------------
+// Checkliste: Was zur Durchfuehrung des Workshops benoetigt wird.
+// Gruppiert nach Verantwortungsbereich; abgeleitet aus den uebrigen
+// Domain-Fakten (Hosts, Versionen, Plugins, Stages) — Single Source of Truth.
+// ----------------------------------------------------------------------------
+export type RequirementGroup = { title: string; items: string[] };
+
+export const WORKSHOP_REQUIREMENTS: RequirementGroup[] = [
+  {
+    title: 'Infrastruktur (vorab bereitzustellen)',
+    items: [
+      'Vier VMs mit Ubuntu 24.04 LTS (host1–host4, 10.0.0.11–10.0.0.14), im Basis-Netzwerk untereinander per SSH erreichbar.',
+      'Benutzer ubuntu mit sudo-Rechten auf allen vier Hosts.',
+      'Je Host ein SSH-Schlüsselpaar (~/.ssh/hostN_ed25519); der öffentliche Schlüssel ist auf dem jeweiligen Host hinterlegt.',
+      'DNS-A-Record für jenkins.example.com, der öffentlich auflösbar auf host1 zeigt (Voraussetzung für Let’s Encrypt).',
+      'Ausgehender Internetzugang für apt-Pakete, pkg.jenkins.io, PyPI und die Let’s-Encrypt-ACME-Server.',
+      'Offene Ports: 22/SSH zwischen Arbeitsplatz und Hosts, 80 und 443 öffentlich auf host1, 8080 auf host3 (intern), SSH-Agent-Anbindung zu host2 und host4.',
+    ],
+  },
+  {
+    title: 'Zugänge & Artefakte',
+    items: [
+      'Zugang zu Claude Code in der Workshop-Umgebung (Konto/Lizenz) je Teilnehmenden.',
+      'Git-Repository für CLAUDE.md, Provisionierungsskripte, Jenkinsfile und Tests — für Jenkins lesbar erreichbar.',
+      'Eine baubare Maven-/Spring-Boot-Beispielanwendung mit den Endpunkten /actuator/health, /api/greeting und /api/echo.',
+      'Eine gültige E-Mail-Adresse für die Let’s-Encrypt-Registrierung (certbot).',
+    ],
+  },
+  {
+    title: 'Auf den Hosts (Ergebnis der Provisionierung)',
+    items: [
+      'host1: OpenJDK 17 (Temurin), Jenkins LTS, nginx, certbot sowie die Plugins workflow-aggregator, git, ssh-slaves, credentials-binding, junit, pipeline-stage-view, ws-cleanup.',
+      'host2: OpenJDK 17 und Maven 3.9.x (Agent-Label maven).',
+      'host4: OpenJDK 17, Python 3.12 mit venv (requests, pytest) und curl (Agent-Label pytest).',
+      'host3: systemd-Service demo-app auf Port 8080 mit Schreibrecht für das Deploy-Ziel /opt/demo-app.',
+      'Jenkins Credential Store: deploy-key (SSH Private Key) für das Deployment auf host3.',
+    ],
+  },
+  {
+    title: 'Teilnehmende & Arbeitsplatz',
+    items: [
+      'Grundkenntnisse Linux-Kommandozeile, SSH und Git sowie der CI/CD-Grundbegriffe (Build, Test, Deployment).',
+      'Laptop mit Terminal, SSH-Client und aktuellem Browser; Zugriff auf das Repository und Claude Code.',
+    ],
+  },
+];
+
+// ----------------------------------------------------------------------------
 // Abnahmekriterien des Workshops (fachlich, nicht Build-Akzeptanz der App)
 // ----------------------------------------------------------------------------
 export const WORKSHOP_ACCEPTANCE: string[] = [
