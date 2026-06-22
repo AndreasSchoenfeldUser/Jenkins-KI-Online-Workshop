@@ -1,10 +1,15 @@
-import type { Slide } from '../../types';
+import type { ImageBlock, Slide } from '../../types';
 import { RichText } from '../../components/RichText';
 
 // Eine 16:9-Folie. Dunkle Titel-/Divider-/Summary-Folien, helle Content-Folien.
 export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnail?: boolean }) {
   const dark = slide.background === 'navy';
   const isContent = slide.kind === 'content';
+
+  // Bilder werden getrennt vom Fliesstext in einem hoehenbegrenzten Bereich
+  // gerendert, damit grosse Diagramme die 16:9-Buehne nicht ueberlaufen.
+  const imageBlocks = (slide.body ?? []).filter((b): b is ImageBlock => b.kind === 'image');
+  const textBlocks = (slide.body ?? []).filter((b) => b.kind !== 'image');
 
   return (
     <div
@@ -29,20 +34,25 @@ export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnai
         {slide.title}
       </h2>
 
-      {slide.body && !thumbnail && (
+      {textBlocks.length > 0 && !thumbnail && (
         <div className={`mt-4 overflow-y-auto ${isContent ? 'text-[17px]' : 'text-lg'} ${dark ? 'slide-dark' : ''}`}>
-          <RichText blocks={slide.body} />
+          <RichText blocks={textBlocks} />
         </div>
       )}
 
-      {/* Titelfolie: Topologie-Grafik als Hero, hoehenbegrenzt (kein Ueberlauf der Buehne) */}
-      {slide.kind === 'title' && !thumbnail && (
-        <div className="mt-6 flex min-h-0 flex-1 items-center justify-center">
-          <img
-            src="./assets/banner.svg"
-            alt="Topologie: Controller (host1) orchestriert die Agenten host2 (maven) und host4 (pytest); beide wirken auf das Deployment-Ziel host3."
-            className="max-h-full w-auto max-w-[78%]"
-          />
+      {/* Diagramme/Bilder: zentriert und hoehenbegrenzt, damit nichts abgeschnitten wird. */}
+      {imageBlocks.length > 0 && !thumbnail && (
+        <div className="mt-4 flex min-h-0 flex-1 items-center justify-center gap-6">
+          {imageBlocks.map((b, i) => (
+            <figure key={i} className="flex h-full min-h-0 flex-col items-center justify-center">
+              <img src={b.src} alt={b.alt} className="max-h-full w-auto max-w-full" />
+              {b.caption && (
+                <figcaption className={`mt-2 text-center text-sm ${dark ? 'text-light/70' : 'text-grey'}`}>
+                  {b.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
         </div>
       )}
 
