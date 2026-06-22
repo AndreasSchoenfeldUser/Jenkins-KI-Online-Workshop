@@ -25,7 +25,11 @@ export function HomePage() {
     <div className="mx-auto max-w-6xl">
       {/* Hero */}
       <section className="overflow-hidden rounded-lg bg-navy shadow-soft-lg">
-        <img src="./assets/banner.svg" alt="Jenkins-Infrastruktur mit Claude Code" className="w-full" />
+        <img
+          src="./assets/hero-banner.png"
+          alt="Jenkins-Infrastruktur mit Claude Code — vier vernetzte Knoten einer verteilten CI/CD-Pipeline."
+          className="w-full"
+        />
         <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-t border-white/10 bg-navy-2 px-4 py-3 text-sm text-light">
           <span>Ein Workshop der</span>
           <Logo height={22} />
