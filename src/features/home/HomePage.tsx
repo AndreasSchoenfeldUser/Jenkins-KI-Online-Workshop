@@ -26,7 +26,7 @@ export function HomePage() {
       {/* Hero */}
       <section className="overflow-hidden rounded-lg bg-navy shadow-soft-lg">
         <img
-          src="./assets/hero-banner.png"
+          src="./assets/hero-banner.webp"
           alt="Jenkins-Infrastruktur mit Claude Code — vier vernetzte Knoten einer verteilten CI/CD-Pipeline."
           className="w-full"
         />

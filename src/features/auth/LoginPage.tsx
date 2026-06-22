@@ -79,7 +79,11 @@ export function LoginPage() {
           {/* Uebersicht */}
           <section>
             <div className="overflow-hidden rounded-lg shadow-soft-lg">
-              <img src="./assets/banner.svg" alt="Jenkins-Infrastruktur mit Claude Code" className="w-full" />
+              <img
+                src="./assets/hero-banner.webp"
+                alt="Jenkins-Infrastruktur mit Claude Code — vier vernetzte Knoten einer verteilten CI/CD-Pipeline."
+                className="w-full"
+              />
             </div>
 
             <h1 className="mt-6 font-serif text-3xl font-bold">
