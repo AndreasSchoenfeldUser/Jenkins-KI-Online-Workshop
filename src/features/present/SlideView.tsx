@@ -1,5 +1,35 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { ImageBlock, Slide } from '../../types';
 import { RichText } from '../../components/RichText';
+
+// Skaliert den Folieninhalt herunter, falls seine natuerliche Hoehe die
+// verfuegbare Buehnenhoehe ueberschreitet — so wird auf dichten Folien (grosse
+// Tabellen) nichts abgeschnitten. Transforms aendern scrollHeight nicht, daher
+// keine Rueckkopplung mit dem ResizeObserver.
+function useFitScale(active: boolean) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useLayoutEffect(() => {
+    if (!active) return;
+    const box = boxRef.current;
+    const content = contentRef.current;
+    if (!box || !content) return;
+    const fit = () => {
+      const avail = box.clientHeight;
+      const needed = content.scrollHeight;
+      setScale(needed > avail && avail > 0 ? Math.max(0.5, avail / needed) : 1);
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(box);
+    ro.observe(content);
+    return () => ro.disconnect();
+  }, [active]);
+
+  return { boxRef, contentRef, scale };
+}
 
 // Eine 16:9-Folie. Dunkle Titel-/Divider-/Summary-Folien, helle Content-Folien.
 export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnail?: boolean }) {
@@ -10,6 +40,7 @@ export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnai
   // gerendert, damit grosse Diagramme die 16:9-Buehne nicht ueberlaufen.
   const imageBlocks = (slide.body ?? []).filter((b): b is ImageBlock => b.kind === 'image');
   const textBlocks = (slide.body ?? []).filter((b) => b.kind !== 'image');
+  const { boxRef, contentRef, scale } = useFitScale(textBlocks.length > 0 && !thumbnail);
 
   return (
     <div
@@ -35,8 +66,14 @@ export function SlideView({ slide, thumbnail = false }: { slide: Slide; thumbnai
       </h2>
 
       {textBlocks.length > 0 && !thumbnail && (
-        <div className={`mt-4 overflow-y-auto ${isContent ? 'text-[17px]' : 'text-lg'} ${dark ? 'slide-dark' : ''}`}>
-          <RichText blocks={textBlocks} />
+        <div ref={boxRef} className="relative mt-4 min-h-0 flex-1 overflow-hidden">
+          <div
+            ref={contentRef}
+            style={scale < 1 ? { transform: `scale(${scale})`, transformOrigin: 'top center' } : undefined}
+            className={`${isContent ? 'text-[17px]' : 'text-lg'} ${dark ? 'slide-dark' : ''}`}
+          >
+            <RichText blocks={textBlocks} />
+          </div>
         </div>
       )}
 
